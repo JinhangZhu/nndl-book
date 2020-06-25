@@ -49,4 +49,5 @@ if __name__ == "__main__":
         monitor_evaluation_accuracy=True
     )
     print("Training completed in {} seconds".format(int(time.time() - t0)))
+    net.save('net-cross-entropy.json')
     utils.plot_results(evaluation_accuracy)
