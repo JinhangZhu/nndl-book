@@ -26,7 +26,7 @@ net.SGD(
 
 
 
-![](\images\mse-non-full-matrix.png)
+![](images/mse-non-full-matrix.png)
 
 - MSE-based, matrix-based, mini-batch SGD
 
@@ -44,7 +44,7 @@ net.SGD(
 
 
 
-![](\images\mse-full-matrix.png)
+![](images/mse-full-matrix.png)
 
 - Cross-entropy-based, matrix-based, mini-batch SGD
 
@@ -67,4 +67,4 @@ evaluation_cost, evaluation_accuracy, training_cost, training_accuracy = net.SGD
 
 
 
-![](\images\cross-entropy-matrix.png)
+![](images/cross-entropy-matrix.png)
