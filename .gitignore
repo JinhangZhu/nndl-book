@@ -142,3 +142,6 @@ cython_debug/
 
 # DeepLearningPython35
 DeepLearningPython35/
+
+# deploy script
+deploy.sh

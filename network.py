@@ -13,7 +13,7 @@ import random
 
 import numpy as np
 
-from utils import sigmoid, sigmoid_prime
+from utils import sigmoid, sigmoid_prime, plot_results
 import matplotlib.pyplot as plt
 
 # Core class
@@ -70,17 +70,13 @@ class Network:
                 print("Epoch {}: {} / {}".format(t, test_result, n_test))
             else:
                 print("Epoch {} complete".format(t))
-        plt.plot(range(len(test_results)), test_results)
-        i_max, r_max = test_results.index(max(test_results)), max(test_results)
-        plt.scatter([i_max], [r_max], c='g')
-        plt.text(i_max, r_max, '{}'.format(r_max))
-        plt.show()
+        if test_data:
+            plot_results(test_results)
 
     def update_mini_batch(self, mini_batch, learning_rate):
         """Update the network's weights and biases by applying
         gradient descent using backpropagation to a single mini batch.
-        The "mini_batch" is a list of tuples "(x, y)", and "eta"
-        is the learning rate.
+        The "mini_batch" is a list of tuples "(x, y)".
         """
         # Store the sum of all samples' nablas
         nabla_b = [np.zeros(b.shape) for b in self.biases]
@@ -104,17 +100,20 @@ class Network:
             full_x = np.concatenate((full_x, x), axis=1)
             full_y = np.concatenate((full_y, y), axis=1)
         # Backpropagation
-        nabla_b, nabla_w = self.backprop2(full_x, full_y)
+        nabla_b, nabla_w = self.backprop_matrix(full_x, full_y)
         self.weights = [w - learning_rate / len(mini_batch) * nw for w, nw in zip(self.weights, nabla_w)]
         self.biases = [b - learning_rate / len(mini_batch) * nb for b, nb in zip(self.biases, nabla_b)]
 
     # https://github.com/MichalDanielDobrzanski/DeepLearningPython35/blob/ea229ac6234b7f3373f351f0b18616ca47edb8a1/network.py#L93
 
     def backprop(self, x, y):
-        """Return a tuple ``(nabla_b, nabla_w)`` representing the
+        """Single sample based.
+
+        Return a tuple ``(nabla_b, nabla_w)`` representing the
         gradient for the cost function C_x.  ``nabla_b`` and
         ``nabla_w`` are layer-by-layer lists of numpy arrays, similar
-        to ``self.biases`` and ``self.weights``."""
+        to ``self.biases`` and ``self.weights``.
+        """
         nabla_b = [np.zeros(b.shape) for b in self.biases]
         nabla_w = [np.zeros(w.shape) for w in self.weights]
         # feedforward
@@ -127,7 +126,7 @@ class Network:
             activation = sigmoid(z)
             activations.append(activation)
         # backward pass
-        delta = self.cost_derivative(activations[-1], y) * sigmoid_prime(zs[-1])
+        delta = self.cost_derivative(activations[-1], y) * sigmoid_prime(zs[-1])   # IMPORTANT
         nabla_b[-1] = delta
         nabla_w[-1] = np.dot(delta, activations[-2].transpose())
 
@@ -139,7 +138,9 @@ class Network:
             nabla_w[-l] = np.dot(delta, activations[-l-1].transpose())
         return (nabla_b, nabla_w)
 
-    def backprop2(self, x, y):
+    def backprop_matrix(self, x, y):
+        """Full-batch method.
+        """
         nabla_b = [np.zeros(b.shape) for b in self.biases]
         nabla_w = [np.zeros(w.shape) for w in self.weights]
         # feedforward
@@ -147,7 +148,7 @@ class Network:
         activations = [x]  # list to store all the activations, layer by layer
         zs = []  # list to store all the z vectors, layer by layer
         for b, w in zip(self.biases, self.weights):
-            z = np.dot(w, activation) + np.repeat(b, activation.shape[1], axis=1)
+            z = np.dot(w, activation) + np.repeat(b, activation.shape[1], axis=1)   # IMPORTANT
             zs.append(z)
             activation = sigmoid(z)
             activations.append(activation)
