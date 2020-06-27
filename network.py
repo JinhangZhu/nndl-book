@@ -49,12 +49,12 @@ class Network:
     def SGD(self, training_data, epochs, mini_batch_size, learning_rate, test_data=None, full_batch=False):
         if test_data:
             # https://github.com/MichalDanielDobrzanski/DeepLearningPython35/blob/ea229ac6234b7f3373f351f0b18616ca47edb8a1/network.py#L62
-            test_data = list(test_data)
+            # test_data = list(test_data)
             n_test = len(test_data)
             test_results = []
 
         # https://github.com/MichalDanielDobrzanski/DeepLearningPython35/blob/ea229ac6234b7f3373f351f0b18616ca47edb8a1/network.py#L58
-        training_data = list(training_data)
+        # training_data = list(training_data)
         n = len(training_data)
         for t in range(epochs):
             random.shuffle(training_data)

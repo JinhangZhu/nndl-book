@@ -68,3 +68,5 @@ evaluation_cost, evaluation_accuracy, training_cost, training_accuracy = net.SGD
 
 
 ![](\images\cross-entropy-matrix.png)
+
+

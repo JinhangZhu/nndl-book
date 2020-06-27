@@ -24,7 +24,7 @@ import matplotlib.pyplot as plt
 # Define the quadratic and cross-entropy cost functions
 
 
-class QuadraticCost(object):
+class QuadraticCost:
     def fn(a, y):
         """Return the cost associated with an output ``a`` and desired output
         ``y``.
@@ -37,7 +37,7 @@ class QuadraticCost(object):
         return (a-y) * sigmoid_prime(z)
 
 
-class CrossEntropyCost(object):
+class CrossEntropyCost:
 
     def fn(a, y):
         """Return the cost associated with an output ``a`` and desired output
@@ -137,11 +137,11 @@ class Network:
         # early stopping functionality:
         best_accuracy = 1
 
-        training_data = list(training_data)
+        # training_data = list(training_data)
         n = len(training_data)
 
         if evaluation_data:
-            evaluation_data = list(evaluation_data)
+            # evaluation_data = list(evaluation_data)
             n_data = len(evaluation_data)
 
         # early stopping functionality:
