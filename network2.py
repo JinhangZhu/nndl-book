@@ -15,6 +15,7 @@ features.
 import json
 import sys
 import random
+from tqdm import tqdm
 
 import numpy as np
 
@@ -81,7 +82,8 @@ class Network:
         """
         # random.seed(1)
         self.weights = [
-            np.random.randn(j, i) for i, j in zip(self.sizes[:-1], self.sizes[1:])
+            np.random.randn(j, i)/np.sqrt(i)
+            for i, j in zip(self.sizes[:-1], self.sizes[1:])
         ]
         self.biases = [np.random.randn(j, 1) for j in self.sizes[1:]]
 
@@ -151,7 +153,7 @@ class Network:
         evaluation_cost, evaluation_accuracy = [], []
         training_cost, training_accuracy = [], []
 
-        for j in range(epochs):
+        for j in tqdm(range(epochs), desc='Epochs'):
             random.shuffle(training_data)
             mini_batches = [
                 training_data[k:k+mini_batch_size]
@@ -164,7 +166,7 @@ class Network:
                     self.update_full_batch(
                         mini_batch, eta, lmbda, len(training_data))
 
-            print("Epoch %s training complete" % j)
+            # print("Epoch %s training complete" % j)
 
             if monitor_training_cost:
                 cost = self.total_cost(training_data, lmbda)
