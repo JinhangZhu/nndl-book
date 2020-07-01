@@ -104,6 +104,7 @@ if __name__ == "__main__":
     #     sizes=[784, 30, 10],
     #     cost=network2.CrossEntropyCost
     # )
+    # net.large_weight_initializer()
     # t0 = time.time()
     # evaluation_cost, evaluation_accuracy, training_cost, training_accuracy = net.SGD(
     #     training_data=training_data[:1000],
@@ -127,3 +128,27 @@ if __name__ == "__main__":
 
     # # network2.py demo weight initialization
     # See weight_initialization.py
+
+    # # network2.py demo early stopping
+    #
+    #
+    net = network2.Network(
+        sizes=[784, 30, 10],
+        cost=network2.CrossEntropyCost
+    )
+    evaluation_cost, evaluation_accuracy, training_cost, training_accuracy = net.SGD(
+        training_data=training_data[:1000],
+        epochs=30,
+        mini_batch_size=10,
+        eta=0.5,
+        lmbda=5.0,
+        evaluation_data=validation_data,
+        full_batch=True,
+        monitor_evaluation_accuracy=True,
+        monitor_training_cost=True,
+        early_stopping_n=10
+    )
+    results = {}
+    results['Accuracy on the test data'] = utils.make_percentage(evaluation_accuracy, len(validation_data))
+    results['Cost on the training data'] = training_cost
+    utils.plot_results(results, 0, 30)

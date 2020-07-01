@@ -26,7 +26,7 @@ def vectorized_result(j):
     return e
 
 
-def plot_results(results, start, end, show_max=False, merge=False):
+def plot_results(results, start=None, end=None, show_max=False, merge=False):
     """Plot a list of data and highlight the top point.
 
     Arguments:
